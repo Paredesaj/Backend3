@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos en Tiempo Real</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/scripts.js" defer></script>
+</head>
+<body>
+    <header class="navbar">
+        <a href="/">Inicio</a>
+        <a href="/realTimeProducts">Productos en tiempo real</a>
+        <a href="/cart">Carrito</a>
+    </header>
+    
+    <div class="container">
+        <h1>Productos en Tiempo Real</h1>
+        
+        <h2>Lista de productos:</h2>
+        <ul id="productList">
+            {{#each products}}
+                <li>
+                    <p>{{this.title}} - ${{this.price}}</p>
+                    <button class="delete-product" data-id="{{this._id}}">Eliminar</button>
+                </li>
+            {{/each}}
+        </ul>
+
+        <h2>Añadir un nuevo producto:</h2>
+        <form id="productForm">
+            <input type="text" id="title" placeholder="Título del producto" required>
+            <input type="number" id="price" placeholder="Precio del producto" required>
+            <input type="text" id="category" placeholder="Categoría del producto" required>
+            <button type="submit">Añadir producto</button>
+        </form>
+    </div>
+</body>
+</html>

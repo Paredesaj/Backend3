@@ -1,0 +1,21 @@
+{
+  "name": "mi-tienda",
+  "version": "1.0.0",
+  "description": "Proyecto e-commerce",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.6.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.17.1",
+    "handlebars": "^4.7.6",
+    "mongoose": "^5.10.9",
+    "socket.io": "^4.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
