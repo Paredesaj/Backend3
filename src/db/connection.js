@@ -3,18 +3,22 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const connectDB = () => {
-  const mongoURI = process.env.MONGODB_URI; // Asegúrate de que esta variable esté bien definida en .env
+export const connectDB = async () => {
+  const mongoURI = process.env.MONGO_URL || process.env.MONGODB_URI; // Prioriza MONGO_URL, pero acepta MONGODB_URI también
 
   if (!mongoURI) {
-    console.error('Mongo URI no está definida en el archivo .env');
-    process.exit(1); // Si no hay URI, termina el proceso
+    console.error('❌ Error: Mongo URI no está definida en el archivo .env');
+    process.exit(1); // Sale del proceso si no hay URI
   }
 
-  mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => console.log('Conexión exitosa a MongoDB'))
-  .catch(err => console.error('Error al conectar a MongoDB:', err));
+  try {
+    await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('✅ Conexión exitosa a MongoDB');
+  } catch (error) {
+    console.error('❌ Error al conectar a MongoDB:', error);
+    process.exit(1); // Sale del proceso si falla la conexión
+  }
 };
