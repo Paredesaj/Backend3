@@ -4,11 +4,11 @@ services:
   backend:
     build: .
     ports:
-      - "8080:8080"
+      - "8081:8080"  # Cambié el puerto de la máquina local a 8081
     depends_on:
       - mongo
     environment:
-      - MONGO_URL=mongodb://mongo:27017/nombreDeTuDB
+      - MONGODB_URI=mongodb+srv://anthonyjpg89:lw3U04PxNNOMBuZA@cluster0.botgqem.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
   mongo:
     image: mongo:6

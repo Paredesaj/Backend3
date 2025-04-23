@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import logger from '../utils/logger.js'; // Importamos el logger
 const router = Router();
 
 // Simulación de base de datos de usuarios
@@ -28,19 +29,10 @@ let users = [
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                     example: 1
- *                   name:
- *                     type: string
- *                     example: Juan
- *                   email:
- *                     type: string
- *                     example: juan@example.com
+ *                 $ref: '#/components/schemas/User'
  */
 router.get('/', (req, res) => {
+  logger.info('Ruta GET /api/users ejecutada'); // Log cuando se llama la ruta GET
   res.status(200).json(users);
 });
 
@@ -55,20 +47,14 @@ router.get('/', (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *             properties:
- *               name:
- *                 type: string
- *                 example: Maria
- *               email:
- *                 type: string
- *                 example: maria@example.com
+ *             $ref: '#/components/schemas/User'
  *     responses:
  *       201:
  *         description: Usuario creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
  */
 router.post('/', (req, res) => {
   const { name, email } = req.body;
@@ -78,6 +64,7 @@ router.post('/', (req, res) => {
     email,
   };
   users.push(newUser);
+  logger.info(`Nuevo usuario creado: ${name}`); // Log cuando se crea un nuevo usuario
   res.status(201).json(newUser);
 });
 

@@ -4,14 +4,14 @@ import mongoose from "mongoose";
 import cartRouter from "./src/routes/carts.router.js";
 import productRouter from "./src/routes/products.router.js";
 import mocksRouter from "./src/routes/mocks.router.js";
-import adoptionRouter from "./src/routes/adoption.router.js"; // <-- agregado
+import adoptionRouter from "./src/routes/adoption.router.js";
 import { connectDB } from "./src/db/connection.js";
-
-// Swagger
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
 
+// Cargar variables de entorno
 dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -19,38 +19,49 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Conexión a MongoDB
-connectDB();
-
-// Swagger config
+// Configuración de Swagger
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API Users',
+      title: 'API Usuarios y Más',
       version: '1.0.0',
-      description: 'Documentación del módulo de Usuarios',
+      description: 'Documentación completa del backend de ecommerce, incluyendo componentes y seguridad',
     },
+    servers: [
+      {
+        url: `http://localhost:${PORT}`,
+        description: "Servidor local de desarrollo",
+      },
+    ],
   },
-  apis: ['./src/routes/users.router.js'], // asegurate de tener este archivo creado
+  apis: ['./src/routes/*.js'],
 };
 
 const specs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
-// Rutas principales
+// Rutas
 app.use("/api/carts", cartRouter);
 app.use("/api/products", productRouter);
 app.use("/api/mocks", mocksRouter);
-app.use("/api/adoptions", adoptionRouter); // <-- agregado
+app.use("/api/adoptions", adoptionRouter);
 
 // Ruta raíz
 app.get("/", (req, res) => {
   res.send("¡Bienvenido a la tienda!");
 });
 
-// Servidor en marcha
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-  console.log(`📚 Documentación Swagger disponible en http://localhost:${PORT}/api-docs`);
-});
+// Conexión y servidor
+(async () => {
+  try {
+    await connectDB(); // Conexión a la base de datos
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+      console.log(`📚 Documentación Swagger disponible en http://localhost:${PORT}/api-docs`);
+    });
+  } catch (err) {
+    console.error("❌ No se pudo iniciar el servidor debido a problemas con la conexión a la base de datos.");
+    process.exit(1);
+  }
+})();

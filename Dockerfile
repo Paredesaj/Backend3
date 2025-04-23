@@ -1,23 +1,20 @@
-# Imagen base
-FROM node:18
+# Usa una imagen base de Node.js
+FROM node:16
 
 # Establece el directorio de trabajo dentro del contenedor
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copia únicamente los archivos necesarios para instalar dependencias
+# Copia los archivos del proyecto al contenedor
 COPY package*.json ./
 
-# Instala las dependencias dentro del contenedor
+# Instala las dependencias
 RUN npm install
 
-# Copia el resto del código fuente
+# Copia todo el código fuente del proyecto al contenedor
 COPY . .
 
-# Evita copiar node_modules de tu host al contenedor (asegúrate de tener un .dockerignore también)
-# Esto lo evita en práctica si tenés .dockerignore correctamente configurado
-
-# Expone el puerto de la aplicación
+# Expón el puerto en el que tu aplicación escucha (cambia 8080 por el puerto que usas)
 EXPOSE 8080
 
-# Comando por defecto para iniciar tu app
-CMD ["node", "app.js"]
+# Define el comando por defecto para ejecutar la aplicación
+CMD ["npm", "start"]

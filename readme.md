@@ -1,1 +1,1 @@
-https://hub.docker.com/repository/docker/paredesaj/ecommerce-backend/general
+https://hub.docker.com/r/paredesaj/ecommerce-backend
