@@ -15,6 +15,5 @@ COPY . .
 
 # Expón el puerto en el que tu aplicación escucha (cambia 8080 por el puerto que usas)
 EXPOSE 8080
-
 # Define el comando por defecto para ejecutar la aplicación
 CMD ["npm", "start"]
